@@ -1,0 +1,45 @@
+
+use "G:\GAST\Studenten\Roman_Blyzniuk\STATA\German data\TEST\to_be_sent_GERMANY.dta", clear
+
+ duplicates drop
+
+
+drop if ags ==""
+drop if ags =="."
+drop if ags =="x"
+drop if ags =="12x"
+
+keep year federal_state ags municipality residents grundsteuer_a grundsteuer_b gewerbe_steuer 
+
+drop if grundsteuer_a =="."
+drop if grundsteuer_a =="x"
+drop if grundsteuer_a =="12x"
+drop if grundsteuer_a =="-"
+drop if grundsteuer_a =="0"
+
+
+drop if grundsteuer_b ==""
+drop if grundsteuer_b =="."
+drop if grundsteuer_b =="x"
+drop if grundsteuer_b =="12x"
+drop if grundsteuer_b =="-"
+drop if grundsteuer_b =="0"
+
+drop if gewerbe_steuer ==""
+drop if gewerbe_steuer =="."
+drop if gewerbe_steuer =="x"
+drop if gewerbe_steuer =="12x"
+drop if gewerbe_steuer =="-"
+drop if gewerbe_steuer =="0"
+
+bys ags year: gen N = _N
+
+sort N year federal_state ags
+
+duplicates drop
+
+
+ gen gewerbe_steuer_1 = gewerbe_steuer 
+destring gewerbe_steuer_1, replace 
+
+replace gewerbe_steuer_1 = round(gewerbe_steuer_1)
